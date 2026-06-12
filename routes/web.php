@@ -24,3 +24,8 @@ Route::get('/shop', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', AdminProductController::class);
 });
+// Rute Sementara untuk Migrasi Database di Server Cloud
+Route::get('/gas-migrate', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return 'Mantap, database berhasil dimigrasi, bro!';
+});
