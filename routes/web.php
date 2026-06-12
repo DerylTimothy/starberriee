@@ -1,40 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\ShopController; // Sesuaikan dengan nama controller shop lu jika ada
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - Auto Migration System for Production
+| Web Routes - Starberriee Project
 |--------------------------------------------------------------------------
+|
+| Di sini adalah tempat untuk mendaftarkan rute web aplikasi lu.
+| Semua rute ini akan dimuat oleh RouteServiceProvider dalam grup yang
+| berisi grup middleware "web".
+|
 */
 
-// Memaksa Laravel menjalankan migrasi database secara otomatis saat web diakses
-try {
-    Artisan::call('migrate', ['--force' => true]);
-} catch (\Exception $e) {
-    // Diamkan jika database sudah terlanjur bermigrasi atau tabel sudah ada
-}
-
-/*
-|--------------------------------------------------------------------------
-| Aplikasi Routes Starberriee
-|--------------------------------------------------------------------------
-*/
-
-// Halaman Utama / Landing Page
+// Rute Halaman Utama / Landing Page
 Route::get('/', function () {
-    return view('welcome'); // Sesuaikan dengan nama view halaman utama lu (misal: 'index' atau 'home')
+    return view('welcome'); 
 });
 
-// Halaman Shop (Tempat produk lu yang tadi eror)
-// Jika lu pakai Controller, aktifkan baris di bawah ini dan sesuaikan namanya:
-// Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-
-// Jika halaman shop lu murni hanya memanggil view langsung, gunakan ini:
+// Rute Halaman Shop
 Route::get('/shop', function () {
     return view('shop');
 })->name('shop');
-
-// Silakan tambahkan route aplikasi lu yang lain di bawah sini (jika ada)...
