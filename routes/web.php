@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AdminProductController;
 
 /*
@@ -9,26 +10,42 @@ use App\Http\Controllers\AdminProductController;
 |--------------------------------------------------------------------------
 */
 
-// Rute Halaman Utama / Landing Page
+// Halaman Utama
 Route::get('/', function () {
     return view('welcome'); 
 })->name('home');
 
-// Rute Halaman Shop Public
+// Halaman Shop
 Route::get('/shop', function () {
     return view('shop');
 })->name('shop');
 
+// Halaman Custom Order
+Route::get('/custom-order', function () {
+    return view('custom-order');
+})->name('custom-order');
+
+// Halaman FAQs
+Route::get('/faqs', function () {
+    return view('faqs');
+})->name('faqs');
+
+// Auth
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
 // RUTE ADMIN PANEL (CRUD PRODUK)
-// Mengelompokkan semua rute admin/products agar otomatis terbaca oleh form
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', AdminProductController::class);
 });
-// Rute Sementara untuk Migrasi Database di Server Cloud
+
+// Rute Utilitas Server
 Route::get('/gas-migrate', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    Artisan::call('migrate', ['--force' => true]);
     return 'Mantap, database berhasil dimigrasi, bro!';
 });
+
 Route::get('/gas-clear-cache', function () {
     Artisan::call('route:clear');
     Artisan::call('config:clear');
@@ -36,21 +53,3 @@ Route::get('/gas-clear-cache', function () {
     Artisan::call('cache:clear');
     return 'Cache berhasil di-clear!';
 });
-// Rute Halaman Utama / Landing Page
-Route::get('/', function () {
-    return view('welcome'); 
-})->name('home');
-
-// Rute Halaman Shop Public
-Route::get('/shop', function () {
-    return view('shop');
-})->name('shop');
-
-// Tambahkan route yang belum ada
-Route::get('/custom-order', function () {
-    return view('custom-order'); // sesuaikan nama view-nya
-})->name('custom-order');
-
-Route::get('/faqs', function () {
-    return view('faqs');
-})->name('faqs');
