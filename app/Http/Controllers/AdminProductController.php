@@ -2,67 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class AdminProductController extends Controller
 {
-    public function index()
-    {
-        $products = Product::all();
-        return view('admin.products.index', compact('products'));
-    }
-
-    public function create()
-    {
-        return view('admin.products.create');
-    }
-
     public function store(Request $request)
     {
+        // Debugging: Hapus baris di bawah ini jika data sudah berhasil masuk
+        dd($request->all());
+
         $request->validate([
-            'name'        => 'required|string|max:255',
-            'price'       => 'required|numeric',
-            'description' => 'nullable|string',
-            'stock'       => 'required|integer',
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        Product::create($request->all());
+        $data = $request->all();
 
-        return redirect()->route('admin.products.index')
-                         ->with('success', 'Produk berhasil ditambahkan!');
-    }
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $data['image'] = $path;
+        }
 
-    public function show(Product $product)
-    {
-        return view('admin.products.show', compact('product'));
-    }
+        Product::create($data);
 
-    public function edit(Product $product)
-    {
-        return view('admin.products.edit', compact('product'));
-    }
-
-    public function update(Request $request, Product $product)
-    {
-        $request->validate([
-            'name'        => 'required|string|max:255',
-            'price'       => 'required|numeric',
-            'description' => 'nullable|string',
-            'stock'       => 'required|integer',
-        ]);
-
-        $product->update($request->all());
-
-        return redirect()->route('admin.products.index')
-                         ->with('success', 'Produk berhasil diupdate!');
-    }
-
-    public function destroy(Product $product)
-    {
-        $product->delete();
-
-        return redirect()->route('admin.products.index')
-                         ->with('success', 'Produk berhasil dihapus!');
+        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambah!');
     }
 }
