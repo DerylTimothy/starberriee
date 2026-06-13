@@ -12,7 +12,7 @@ use App\Http\Controllers\AdminProductController;
 // Rute Halaman Utama / Landing Page
 Route::get('/', function () {
     return view('welcome'); 
-});
+})->name('home');
 
 // Rute Halaman Shop Public
 Route::get('/shop', function () {
