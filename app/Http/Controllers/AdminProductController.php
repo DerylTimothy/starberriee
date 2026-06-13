@@ -30,13 +30,9 @@ class AdminProductController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            // Menggunakan Cloudinary Facade langsung agar lebih stabil
-            $uploadedFile = $request->file('image');
-            $result = Cloudinary::upload($uploadedFile->getRealPath(), [
+            $result = Cloudinary::upload($request->file('image')->getRealPath(), [
                 'folder' => 'products'
             ]);
-            
-            // Menyimpan URL hasil upload ke dalam database
             $data['image'] = $result->getSecurePath();
         }
 
