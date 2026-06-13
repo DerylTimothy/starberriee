@@ -29,3 +29,10 @@ Route::get('/gas-migrate', function () {
     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
     return 'Mantap, database berhasil dimigrasi, bro!';
 });
+Route::get('/gas-clear-cache', function () {
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    return 'Cache berhasil di-clear!';
+});
