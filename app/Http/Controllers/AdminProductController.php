@@ -14,7 +14,6 @@ class AdminProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    // <-- Tambahkan fungsi create ini
     public function create()
     {
         return view('admin.products.create');
@@ -31,8 +30,14 @@ class AdminProductController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            $uploadedFileUrl = $request->file('image')->storeOnCloudinary('products')->getSecurePath();
-            $data['image'] = $uploadedFileUrl;
+            // Menggunakan Cloudinary Facade langsung agar lebih stabil
+            $uploadedFile = $request->file('image');
+            $result = Cloudinary::upload($uploadedFile->getRealPath(), [
+                'folder' => 'products'
+            ]);
+            
+            // Menyimpan URL hasil upload ke dalam database
+            $data['image'] = $result->getSecurePath();
         }
 
         Product::create($data);
