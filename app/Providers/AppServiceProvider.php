@@ -3,8 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,17 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Sistem Pemaksa Migrasi Otomatis di Server Cloud
-        try {
-            if (!Schema::hasTable('products')) {
-                // Jalankan migrasi tabel yang kosong
-                Artisan::call('migrate', ['--force' => true]);
-                
-                // Jalankan pengisian data produk otomatis (seed)
-                Artisan::call('db:seed', ['--force' => true]);
-            }
-        } catch (\Exception $e) {
-            // Mencegah aplikasi crash jika database sedang bersiap
+        // Paksa HTTPS jika aplikasi berjalan di server production (seperti Railway)
+        if (env('APP_ENV') !== 'local') {
+            URL::forceScheme('https');
         }
     }
 }

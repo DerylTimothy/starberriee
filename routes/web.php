@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminProductController; // Sesuaikan jika nama controller-mu berbeda
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,11 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-// Jangan lupa import controllernya di bagian paling atas file (dibawah baris ke-4)
-// use App\Http\Controllers\AdminProductController; 
-
+// --- ROUTE ADMIN STARBERRIEE ---
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/products/create', [AdminProductController::class, 'create'])->name('admin.products.create');
     Route::post('/products', [AdminProductController::class, 'store'])->name('admin.products.store');
 });
+
+require __DIR__.'/auth.php';
