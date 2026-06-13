@@ -2,34 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class AdminProductController extends Controller
 {
-    /**
-     * Menampilkan daftar semua produk di panel admin
-     */
+    // Ini fungsi yang dicari sistem (index)
     public function index()
     {
         $products = Product::all();
         return view('admin.products.index', compact('products'));
     }
 
-    /**
-     * Menampilkan form tambah produk
-     */
-    public function create()
-    {
-        return view('admin.products.create');
-    }
-
-    /**
-     * Menyimpan produk baru ke database
-     */
+    // Ini fungsi untuk menyimpan produk baru
     public function store(Request $request)
     {
-        // Validasi data
         $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
@@ -38,16 +26,15 @@ class AdminProductController extends Controller
 
         $data = $request->all();
 
-        // Proses penyimpanan gambar
+        // Cek apakah ada file yang di-upload
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
-            $data['image'] = $path;
+            // Upload ke Cloudinary dan ambil path-nya
+            $uploadedFileUrl = $request->file('image')->storeOnCloudinary('products')->getSecurePath();
+            $data['image'] = $uploadedFileUrl;
         }
 
-        // Simpan ke database
         Product::create($data);
 
-        // Redirect dengan pesan sukses
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambah!');
     }
 }

@@ -4,7 +4,6 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Daftar Produk</h2>
-        {{-- Tombol ini yang mengarah ke form tambah produk --}}
         <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Tambah Produk</a>
     </div>
 
@@ -28,9 +27,10 @@
             <tr>
                 <td>
                     @if($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" width="50" alt="{{ $product->name }}">
+                        <!-- Karena pakai Cloudinary, panggil link-nya langsung tanpa asset() -->
+                        <img src="{{ $product->image }}" width="80" alt="{{ $product->name }}">
                     @else
-                        <span>-</span>
+                        <span>Tidak ada gambar</span>
                     @endif
                 </td>
                 <td>{{ $product->name }}</td>
@@ -40,7 +40,7 @@
                     <form action="#" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin hapus?')">Hapus</button>
                     </form>
                 </td>
             </tr>
