@@ -1,13 +1,13 @@
-<?php
+Route::get('/', [ProductController::class, 'index'])->name('home');<?php
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminProductController;
-use App\Http\Controllers\ProductController; // Tambahkan ini
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
-Route::get('/', function () { return view('welcome'); })->name('home');
-Route::get('/shop', [ProductController::class, 'index'])->name('shop'); // Diarahkan ke ProductController
+Route::get('/', [ProductController::class, 'index'])->name('home'); // Halaman utama langsung ke Shop
+Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 Route::get('/custom-order', function () { return view('custom-order'); })->name('custom-order');
 Route::get('/faqs', function () { return view('faqs'); })->name('faqs');
 
