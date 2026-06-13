@@ -36,3 +36,21 @@ Route::get('/gas-clear-cache', function () {
     Artisan::call('cache:clear');
     return 'Cache berhasil di-clear!';
 });
+// Rute Halaman Utama / Landing Page
+Route::get('/', function () {
+    return view('welcome'); 
+})->name('home');
+
+// Rute Halaman Shop Public
+Route::get('/shop', function () {
+    return view('shop');
+})->name('shop');
+
+// Tambahkan route yang belum ada
+Route::get('/custom-order', function () {
+    return view('custom-order'); // sesuaikan nama view-nya
+})->name('custom-order');
+
+Route::get('/faqs', function () {
+    return view('faqs');
+})->name('faqs');
