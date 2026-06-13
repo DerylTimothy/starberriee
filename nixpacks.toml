@@ -5,4 +5,4 @@ cmds = ["composer install --no-dev", "npm ci", "npm run build"]
 cmds = ["php artisan migrate:fresh --seed --force", "php artisan optimize:clear"]
 
 [start]
-cmd = "php-fpm -D && nginx -g 'daemon off;' -c /app/nginx.conf"
+cmd = "php -S 0.0.0.0:$PORT router.php"
