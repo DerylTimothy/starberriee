@@ -1,4 +1,4 @@
-Route::get('/', [ProductController::class, 'index'])->name('home');<?php
+ [ProductController::class, 'index'])->name('home');<?php
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminProductController;
