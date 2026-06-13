@@ -8,14 +8,18 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class AdminProductController extends Controller
 {
-    // Ini fungsi yang dicari sistem (index)
     public function index()
     {
         $products = Product::all();
         return view('admin.products.index', compact('products'));
     }
 
-    // Ini fungsi untuk menyimpan produk baru
+    // <-- Tambahkan fungsi create ini
+    public function create()
+    {
+        return view('admin.products.create');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -26,9 +30,7 @@ class AdminProductController extends Controller
 
         $data = $request->all();
 
-        // Cek apakah ada file yang di-upload
         if ($request->hasFile('image')) {
-            // Upload ke Cloudinary dan ambil path-nya
             $uploadedFileUrl = $request->file('image')->storeOnCloudinary('products')->getSecurePath();
             $data['image'] = $uploadedFileUrl;
         }
