@@ -18,3 +18,10 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+// Jangan lupa import controllernya di bagian paling atas file (dibawah baris ke-4)
+// use App\Http\Controllers\AdminProductController; 
+
+Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/products/create', [AdminProductController::class, 'create'])->name('admin.products.create');
+    Route::post('/products', [AdminProductController::class, 'store'])->name('admin.products.store');
+});
