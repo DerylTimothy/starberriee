@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function () {
 
 // --- ROUTE ADMIN STARBERRIEE ---
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+    // Tambahkan baris di bawah ini agar error 'Route not defined' hilang
+    Route::get('/products', [AdminProductController::class, 'index'])->name('admin.products.index');
+    
     Route::get('/products/create', [AdminProductController::class, 'create'])->name('admin.products.create');
     Route::post('/products', [AdminProductController::class, 'store'])->name('admin.products.store');
 });
