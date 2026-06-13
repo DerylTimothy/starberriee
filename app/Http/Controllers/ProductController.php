@@ -9,10 +9,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data produk
+        // Mengambil semua data produk dari database
         $products = Product::all();
-        
-        // Mengirim data ke view 'shop'
+
+        // Mengirim data $products ke view 'shop'
         return view('shop', compact('products'));
     }
 }
