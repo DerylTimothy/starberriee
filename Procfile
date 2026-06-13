@@ -1,1 +1,0 @@
-web: php artisan optimize:clear && php artisan migrate:fresh --seed --force && php -S 0.0.0.0:$PORT router.php
