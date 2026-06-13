@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
-
-    protected $fillable = ['name', 'price', 'description', 'image'];
+    // Tambahkan baris ini agar field bisa diisi (Mass Assignment)
+    protected $fillable = ['name', 'price', 'image'];
 }
