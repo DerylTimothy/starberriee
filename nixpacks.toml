@@ -1,8 +1,5 @@
 [phases.build]
-cmds = ["composer install --no-dev", "npm ci", "npm run build", "php artisan optimize:clear"]
-
-[phases.deploy]
-cmds = ["php artisan migrate:fresh --seed --force"]
+cmds = ["composer install --no-dev", "npm ci", "npm run build"]
 
 [start]
-cmd = "php -S 0.0.0.0:$PORT router.php"
+cmd = "php artisan optimize:clear && php artisan migrate:fresh --seed --force && php -S 0.0.0.0:$PORT router.php"
